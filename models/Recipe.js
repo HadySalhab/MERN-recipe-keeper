@@ -11,6 +11,10 @@ const RecipeSchema = new mongoose.Schema({
 	ingredients: {
 		type: [String],
 		required: true,
+		validate: [
+			(v) => Array.isArray(v) && v.length > 0,
+			"please add ingredients",
+		],
 	},
 	direction: {
 		type: String,
