@@ -6,6 +6,7 @@ dotenv.config({
 const colors = require("colors");
 const express = require("express");
 const connectDB = require("./config/db");
+const errorHandler = require("./middleware/error");
 const app = express();
 connectDB();
 
@@ -15,9 +16,20 @@ app.use(express.json());
 // Mounting Routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/recipes", require("./routes/recipes"));
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () =>
-	console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
+	console.log(
+		`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
+	)
 );
+//Handle unhandled promise rejection
+process.on("unhandledRejection", (err, promise) => {
+	console.log(`${err.message}`.red);
+	//close server and exit the process
+	server.close(() => {
+		process.exit(1);
+	});
+});
