@@ -1,11 +1,18 @@
 // @desc      Get all user recipes
 // @route     GET /api/recipes
+
+const asyncHandler = require("../middleware/async");
+const Recipe = require("../models/Recipe");
+
 // @access    Private
-exports.getRecipes = (req, res, next) => {
+exports.getRecipes = asyncHandler(async (req, res, next) => {
+	const recipes = await Recipe.find({ user: req.userId }).sort({ date: -1 });
 	res.status(200).json({
-		msg: "get all recipes",
+		success: true,
+		count: recipes.length,
+		data: recipes,
 	});
-};
+});
 
 // @desc      Create user recipe
 // @route     POST /api/recipes
