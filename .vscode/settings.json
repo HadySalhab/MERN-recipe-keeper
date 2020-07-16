@@ -1,0 +1,19 @@
+{
+	"editor.tokenColorCustomizations": {
+		"comments": "#777777",
+		"textMateRules": [
+			{
+				"scope": "keyword.operator",
+				"settings": {
+					"foreground": "#ffcaf2"
+				}
+			}
+		]
+	},
+	"editor.codeActionsOnSave": null,
+	"workbench.colorCustomizations": {
+		"[React Theme]": {
+			"editor.background": "#1c2024"
+		}
+	}
+}
