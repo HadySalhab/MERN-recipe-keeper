@@ -48,11 +48,13 @@ exports.logout = (req, res, next) => {
 // @desc      Get login user
 // @route     Get /api/auth/me
 // @access    Private
-exports.getMe = (req, res, next) => {
+exports.getMe = asyncHandler(async (req, res, next) => {
+	const user = await User.findById(req.userId); //private route: we can access user from protect middleware
 	res.status(200).json({
-		msg: "me",
+		success: true,
+		data: user,
 	});
-};
+});
 
 const sendTokenResponse = (user, statusCode, res) => {
 	const token = jwt.getSignedToken(user._id);

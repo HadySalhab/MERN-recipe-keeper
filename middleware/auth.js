@@ -23,7 +23,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
 	try {
 		// verify token
 		const decoded = await jwt.verify(token, process.env.JWT_SECRET); //throw exception if verification fails
-		req.user = await User.findById(decoded.id);
+		req.userId = decoded.id;
 		next();
 	} catch (error) {
 		return next(new ErrorResponse("Token is not valid", 401));
