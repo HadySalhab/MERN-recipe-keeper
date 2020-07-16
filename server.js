@@ -9,6 +9,10 @@ const connectDB = require("./config/db");
 const app = express();
 connectDB();
 
+// Init Middlewares
+app.use(express.json());
+
+// Mounting Routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/recipes", require("./routes/recipes"));
 
