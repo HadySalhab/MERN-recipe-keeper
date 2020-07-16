@@ -1,5 +1,6 @@
 const asyncHandler = require("../middleware/async");
 const Recipe = require("../models/Recipe");
+const ErrorResponse = require("../utils/errorResponse");
 
 // @desc      Get all user recipes
 // @route     GET /api/recipes
@@ -34,11 +35,25 @@ exports.createRecipe = asyncHandler(async (req, res, next) => {
 // @desc      Update user recipe
 // @route     PUT /api/recipes/:recipeId
 // @access    Private
-exports.updateRecipe = (req, res, next) => {
-	res.status(200).json({
-		msg: "update recipe",
+exports.updateRecipe = asyncHandler(async (req, res, next) => {
+	let recipe = await Recipe.findById(req.params.recipeId);
+	if (!recipe) {
+		return next(new ErrorResponse("Recipe not found", 404));
+	}
+	// Make sure user owns the recipe
+	if (recipe.user.toString() !== req.userId) {
+		return next(new ErrorResponse("Not Authorized", 401));
+	}
+	recipe = await Recipe.findByIdAndUpdate(req.params.recipeId, req.body, {
+		new: true,
+		runValidators: true,
 	});
-};
+
+	res.status(200).json({
+		success: true,
+		data: recipe,
+	});
+});
 
 // @desc      Delete user recipe
 // @route     DELETE /api/recipes/:recipeId
