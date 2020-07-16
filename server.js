@@ -8,12 +8,6 @@ const app = express();
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/recipes", require("./routes/recipes"));
 
-app.get("/", (req, res, next) => {
-	res.status(200).json({
-		success: true,
-	});
-});
-
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () =>
