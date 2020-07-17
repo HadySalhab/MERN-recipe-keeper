@@ -6,7 +6,7 @@ import {
 	RECIPE_ERROR,
 } from "../actions/types";
 
-initialState = {
+const initialState = {
 	recipes: [
 		{
 			ingredients: [
@@ -54,7 +54,7 @@ export default (state = initialState, action) => {
 		case ADD_RECIPE:
 			return {
 				...state,
-				recipes: [...state, recipes, action.payload],
+				recipes: [...state, action.payload],
 				loading: false,
 			};
 		case UPDATE_RECIPE:
