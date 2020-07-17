@@ -7,8 +7,28 @@ li {
 	align-items: center;
 	padding-left: 1rem;
 }
+
+/* label underline focus color */
+.input-field input[type="text"]:focus,
+.materialize-textarea:focus {
+	border-bottom: 1px solid #4caf50 !important;
+}
+/* label focus color */
+.input-field input[type="text"]:focus + label,
+.materialize-textarea:focus + label {
+	color: #4caf50 !important;
+}
+
+.ingredients-input {
+	display: flex;
+	align-items: center;
+}
+.ingredients-input .input-field {
+	flex-grow: 1;
+}
+
 @media only screen and (max-width: 600px) {
 	.brand-logo {
-		font-size: 2rem !important;
+		font-size: 1.7rem !important;
 	}
 }

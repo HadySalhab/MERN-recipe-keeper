@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import M from "materialize-css/dist/js/materialize.min.js";
 import "../../App.css";
 const Navbar = (props) => {
 	const { title, icon } = props;
+	const sideNav = useRef();
+	useEffect(() => {
+		M.Sidenav.init(sideNav.current);
+	}, []);
 	return (
 		<React.Fragment>
 			<nav className="green">
@@ -25,7 +30,7 @@ const Navbar = (props) => {
 					</ul>
 				</div>
 			</nav>
-			<ul className="sidenav" id="mobile-demo">
+			<ul className="sidenav" id="mobile-demo" ref={sideNav}>
 				<li>
 					<Link className="sidenav-close" to="/">
 						Home

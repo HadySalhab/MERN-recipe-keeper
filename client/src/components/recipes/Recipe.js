@@ -6,12 +6,12 @@ const Recipe = ({ recipe }) => {
 		return <Fragment></Fragment>;
 	}
 	return (
-		<div className="col s12 m6 ">
-			<ul class="collection with-header">
-				<li class="collection-header">
-					<h4>{recipe.name}</h4>
+		<div style={{ padding: "0" }} className="col s12 ">
+			<ul className="collection with-header">
+				<li className="collection-header">
+					<h4 className="green-text">{recipe.name}</h4>
 				</li>
-				<li class="collection-item">
+				<li className="collection-item">
 					<p>{recipe.direction}</p>
 				</li>
 			</ul>
