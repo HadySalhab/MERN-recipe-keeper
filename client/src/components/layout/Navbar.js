@@ -7,15 +7,15 @@ const Navbar = (props) => {
 	return (
 		<React.Fragment>
 			<nav className="green">
-				<div class="nav-wrapper">
-					<a href="#!" class="brand-logo">
+				<div className="nav-wrapper">
+					<a href="#!" className="brand-logo">
 						<i className={`nav-icon ${icon}`}></i>
 						{title}
 					</a>
-					<a href="#" data-target="mobile-demo" class="sidenav-trigger">
-						<i class="material-icons">menu</i>
+					<a href="#" data-target="mobile-demo" className="sidenav-trigger">
+						<i className="material-icons">menu</i>
 					</a>
-					<ul class="right hide-on-med-and-down">
+					<ul className="right hide-on-med-and-down">
 						<li>
 							<Link to="/">Home</Link>
 						</li>
@@ -25,7 +25,7 @@ const Navbar = (props) => {
 					</ul>
 				</div>
 			</nav>
-			<ul class="sidenav" id="mobile-demo">
+			<ul className="sidenav" id="mobile-demo">
 				<li>
 					<Link className="sidenav-close" to="/">
 						Home
