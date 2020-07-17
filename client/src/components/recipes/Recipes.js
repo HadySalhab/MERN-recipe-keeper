@@ -7,7 +7,7 @@ const Recipes = (props) => {
 	return (
 		<div className="collection col s12 m6">
 			{recipes.map((rec) => (
-				<RecipeItem recipe={rec} key={rec._id} />
+				<RecipeItem recipe={rec} key={rec.id} />
 			))}
 		</div>
 	);

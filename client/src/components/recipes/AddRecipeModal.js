@@ -2,8 +2,10 @@ import React, { useRef, useEffect } from "react";
 import M from "materialize-css/dist/js/materialize.min.js";
 import useForm from "../../hooks/useForm";
 import useIngredients from "../../hooks/useIngredients";
-
-const AddRecipeModal = () => {
+import { v4 as uuidv4 } from "uuid";
+import { connect } from "react-redux";
+import { addRecipe } from "../../actions";
+const AddRecipeModal = (props) => {
 	const [name, onNameChange, resetName] = useForm("");
 	const [direction, onDirectionChange, resetDirection] = useForm("");
 	const [ingredient, onIngredientChange, resetIngredient] = useForm("");
@@ -19,13 +21,28 @@ const AddRecipeModal = () => {
 	useEffect(() => {
 		M.Modal.init(modal.current, {
 			onCloseEnd: () => {
-				resetName();
-				resetDirection();
-				resetIngredient();
-				clearIngredients();
+				clearInputs();
 			},
 		});
 	}, []);
+	const clearInputs = () => {
+		resetName();
+		resetDirection();
+		resetIngredient();
+		clearIngredients();
+	};
+
+	const handleSubmit = () => {
+		M.Modal.getInstance(modal.current).close();
+		const recipe = {
+			id: uuidv4(),
+			name,
+			direction,
+			ingredients,
+		};
+		props.addRecipe(recipe);
+		clearInputs();
+	};
 
 	return (
 		<div id="modal1" className=".no-autoinit modal" ref={modal}>
@@ -105,9 +122,17 @@ const AddRecipeModal = () => {
 						</ul>
 					)}
 				</div>
+				<div className="right-align">
+					<button
+						onClick={handleSubmit}
+						className="waves-effect waves-light btn green white-text"
+					>
+						Submit
+					</button>
+				</div>
 			</div>
 		</div>
 	);
 };
 
-export default AddRecipeModal;
+export default connect(null, { addRecipe })(AddRecipeModal);
