@@ -1,8 +1,14 @@
 li {
 	list-style: none;
 }
+
 .nav-icon {
 	display: flex;
 	align-items: center;
 	padding-left: 1rem;
+}
+@media only screen and (max-width: 600px) {
+	.brand-logo {
+		font-size: 2rem !important;
+	}
 }

@@ -7,7 +7,7 @@ const Navbar = (props) => {
 	return (
 		<React.Fragment>
 			<nav className="green">
-				<div className="nav-wrapper">
+				<div className="nav-wrapper container">
 					<a href="#!" className="brand-logo">
 						<i className={`nav-icon ${icon}`}></i>
 						{title}

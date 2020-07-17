@@ -4,6 +4,7 @@ import {
 	UPDATE_RECIPE,
 	DELETE_RECIPE,
 	RECIPE_ERROR,
+	SET_CURRENT,
 } from "../actions/types";
 
 const initialState = {
@@ -76,6 +77,12 @@ export default (state = initialState, action) => {
 				...state,
 				loading: false,
 			};
+		case SET_CURRENT: {
+			return {
+				...state,
+				current: action.payload,
+			};
+		}
 		default:
 			return state;
 	}
