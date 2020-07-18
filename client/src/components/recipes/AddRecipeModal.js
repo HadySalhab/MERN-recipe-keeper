@@ -89,10 +89,10 @@ const AddRecipeModal = (props) => {
 									minLength: 50,
 								})}
 							></textarea>
-							<label htmlFor="direction">Direction</label>
+							<label htmlFor="direction">Directions</label>
 							{errors.direction?.type === "required" && (
 								<span className="helper-text red-text">
-									Please add a direction
+									Please add directions
 								</span>
 							)}
 							{errors.direction?.type === "minLength" && (

@@ -1,7 +1,8 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
+import { deleteRecipe } from "../../actions";
 
-const Recipe = ({ recipe }) => {
+const Recipe = ({ recipe, deleteRecipe }) => {
 	if (!recipe) {
 		return <Fragment></Fragment>;
 	}
@@ -9,7 +10,29 @@ const Recipe = ({ recipe }) => {
 		<div style={{ padding: "0" }} className="col s12 ">
 			<ul className="collection with-header">
 				<li className="collection-header">
-					<h4 className="green-text">{recipe.name}</h4>
+					<h4 className="green-text">
+						{recipe.name}
+
+						<a
+							href="#!"
+							className="secondary-content"
+							onClick={(e) => {
+								e.preventDefault();
+								deleteRecipe(recipe.id);
+							}}
+						>
+							<i className="material-icons red-text">delete</i>
+						</a>
+						<a
+							href="#!"
+							className="secondary-content"
+							onClick={(e) => {
+								e.preventDefault();
+							}}
+						>
+							<i className="material-icons blue-text">create</i>
+						</a>
+					</h4>
 				</li>
 				<li className="collection-item">
 					<p>{recipe.direction}</p>
@@ -32,4 +55,4 @@ const mapStateToProps = (state) => {
 		recipe: state.recipes.current,
 	};
 };
-export default connect(mapStateToProps)(Recipe);
+export default connect(mapStateToProps, { deleteRecipe })(Recipe);

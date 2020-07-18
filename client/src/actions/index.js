@@ -1,4 +1,4 @@
-import { SET_CURRENT, ADD_RECIPE } from "./types";
+import { SET_CURRENT, ADD_RECIPE, DELETE_RECIPE } from "./types";
 
 export const setCurrent = (recipe) => {
 	return {
@@ -11,5 +11,12 @@ export const addRecipe = (recipe) => {
 	return {
 		type: ADD_RECIPE,
 		payload: recipe,
+	};
+};
+
+export const deleteRecipe = (id) => {
+	return {
+		type: DELETE_RECIPE,
+		payload: id,
 	};
 };

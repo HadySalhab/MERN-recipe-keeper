@@ -62,15 +62,16 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				recipes: state.recipes.map((rec) =>
-					rec._id === action.payload._id ? action.payload : rec
+					rec._id === action.payload.id ? action.payload : rec
 				),
 				loading: false,
 			};
 		case DELETE_RECIPE:
 			return {
 				...state,
-				recipes: state.recipes.filter((rec) => rec._id !== action.payload),
+				recipes: state.recipes.filter((rec) => rec.id !== action.payload),
 				loading: false,
+				current: null,
 			};
 		case RECIPE_ERROR:
 			return {
