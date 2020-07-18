@@ -27,6 +27,12 @@ const Navbar = (props) => {
 						<li>
 							<Link to="/about">About</Link>
 						</li>
+						<li>
+							<Link to="/register">Register</Link>
+						</li>
+						<li>
+							<Link to="/login">Login</Link>
+						</li>
 					</ul>
 				</div>
 			</nav>
@@ -39,6 +45,16 @@ const Navbar = (props) => {
 				<li>
 					<Link className="sidenav-close" to="/about">
 						About
+					</Link>
+				</li>
+				<li>
+					<Link className="sidenav-close" to="/register">
+						Register
+					</Link>
+				</li>
+				<li>
+					<Link className="sidenav-close" to="/login">
+						Login
 					</Link>
 				</li>
 			</ul>
