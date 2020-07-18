@@ -1,15 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
 import RecipeItem from "./RecipeItem";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const Recipes = (props) => {
 	const { recipes, loading } = props.recipes;
 	return (
-		<div className="collection col s12 m6">
+		<TransitionGroup className="collection col s12 m6">
 			{recipes.map((rec) => (
-				<RecipeItem recipe={rec} key={rec.id} />
+				<CSSTransition key={rec.id} timeout={500} classNames="item">
+					<RecipeItem recipe={rec} />
+				</CSSTransition>
 			))}
-		</div>
+		</TransitionGroup>
 	);
 };
 const mapStateToProps = (state) => {

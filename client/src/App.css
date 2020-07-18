@@ -27,6 +27,22 @@ li {
 	flex-grow: 1;
 }
 
+/* Animation (Add After) */
+.item-enter {
+	opacity: 0;
+}
+.item-enter-active {
+	opacity: 1;
+	transition: opacity 1000ms ease-in;
+}
+.item-exit {
+	opacity: 1;
+}
+.item-exit-active {
+	opacity: 0;
+	transition: opacity 1000ms ease-in;
+}
+
 @media only screen and (max-width: 600px) {
 	.brand-logo {
 		font-size: 1.7rem !important;
