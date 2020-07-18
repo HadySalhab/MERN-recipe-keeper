@@ -14,6 +14,7 @@ const initial = {
 	token: localStorage.getItem("recipe-token"),
 	isAuthenticated: null,
 	loading: false,
+	loadingUser: true,
 	alert: null,
 	user: null,
 };
@@ -27,6 +28,7 @@ export default (state = initial, action) => {
 				token: action.payload,
 				isAuthenticated: true,
 				loading: false,
+				loadingUser: false,
 			};
 		case REGISTER_FAIL:
 		case LOGIN_FAIL:
@@ -37,20 +39,15 @@ export default (state = initial, action) => {
 				token: null,
 				isAuthenticated: false,
 				loading: false,
+				loadingUser: false,
 				user: null,
 				alert: action.payload,
-			};
-		case AUTH_LOADING:
-			return {
-				...state,
-				loading: true,
-				alert: null,
 			};
 		case USER_LOADED:
 			return {
 				...state,
 				isAuthenticated: true,
-				loading: false,
+				loadingUser: false,
 				alert: null,
 				user: action.payload,
 			};
@@ -59,6 +56,12 @@ export default (state = initial, action) => {
 				...state,
 				alert: null,
 				loading: false,
+			};
+		case AUTH_LOADING:
+			return {
+				...state,
+				loading: true,
+				alert: null,
 			};
 		default:
 			return state;

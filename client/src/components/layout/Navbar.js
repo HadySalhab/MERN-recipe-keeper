@@ -1,15 +1,20 @@
 import React, { useEffect, useRef, Fragment } from "react";
 import PropTypes from "prop-types";
-import { logout } from "../../actions";
+import { logout, loadUser } from "../../actions";
 import { Link } from "react-router-dom";
 import M from "materialize-css/dist/js/materialize.min.js";
 import "../../App.css";
 import { connect } from "react-redux";
 const Navbar = (props) => {
-	const { title, icon, isAuthenticated, user, logout } = props;
+	const { title, icon, isAuthenticated, loadUser, logout } = props;
+
 	const sideNav = useRef();
 	useEffect(() => {
 		M.Sidenav.init(sideNav.current);
+	}, []);
+	useEffect(() => {
+		console.log("Navbar");
+		loadUser();
 	}, []);
 
 	const authLinks = (
@@ -75,4 +80,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, { logout })(Navbar);
+export default connect(mapStateToProps, { logout, loadUser })(Navbar);

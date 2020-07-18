@@ -81,7 +81,7 @@ export const register = (formData) => async (dispatch) => {
 			});
 			localStorage.setItem("recipe-token", res.data.token);
 		}
-		// dispatch(loadUser());
+		dispatch(loadUser());
 	} catch (err) {
 		if (err.response) {
 			let message = err.response.data.error;
@@ -130,6 +130,7 @@ export const login = (formData) => async (dispatch) => {
 				payload: res.data.token,
 			});
 			localStorage.setItem("recipe-token", res.data.token);
+			dispatch(loadUser());
 		}
 	} catch (err) {
 		if (err.response) {
@@ -157,9 +158,6 @@ export const loadUser = () => async (dispatch) => {
 		axios.setAuthToken(localStorage.getItem("recipe-token"));
 	}
 	try {
-		dispatch({
-			type: AUTH_LOADING,
-		});
 		const res = await axios({
 			method: "get",
 			url: "/api/auth/me",
@@ -177,6 +175,7 @@ export const loadUser = () => async (dispatch) => {
 	}
 };
 export const logout = () => {
+	localStorage.removeItem("recipe-token");
 	return {
 		type: LOGOUT,
 		payload: null,
