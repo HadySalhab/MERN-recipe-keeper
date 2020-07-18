@@ -1,4 +1,11 @@
-import { SET_CURRENT, ADD_RECIPE, DELETE_RECIPE } from "./types";
+import {
+	SET_CURRENT,
+	ADD_RECIPE,
+	DELETE_RECIPE,
+	EDIT_RECIPE,
+	CLEAR_EDIT_RECIPE,
+	UPDATE_RECIPE,
+} from "./types";
 
 export const setCurrent = (recipe) => {
 	return {
@@ -13,10 +20,27 @@ export const addRecipe = (recipe) => {
 		payload: recipe,
 	};
 };
+export const updateRecipe = (recipe) => (dispatch) => {
+	dispatch({ type: UPDATE_RECIPE, payload: recipe });
+	dispatch(setCurrent(recipe));
+};
 
 export const deleteRecipe = (id) => {
 	return {
 		type: DELETE_RECIPE,
 		payload: id,
+	};
+};
+
+export const editRecipe = (recipe) => {
+	return {
+		type: EDIT_RECIPE,
+		payload: recipe,
+	};
+};
+
+export const clearEditRecipe = () => {
+	return {
+		type: CLEAR_EDIT_RECIPE,
 	};
 };

@@ -11,7 +11,13 @@ const useIngredients = (initialValue) => {
 	const clearIngredients = () => {
 		setIngredients([]);
 	};
-	return { ingredients, addIngredient, deleteIngredient, clearIngredients };
+	return {
+		ingredients,
+		addIngredient,
+		deleteIngredient,
+		clearIngredients,
+		setIngredients,
+	};
 };
 
 export default useIngredients;

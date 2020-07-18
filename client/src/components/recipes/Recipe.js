@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
-import { deleteRecipe } from "../../actions";
+import { deleteRecipe, editRecipe } from "../../actions";
 
-const Recipe = ({ recipe, deleteRecipe }) => {
+const Recipe = ({ recipe, deleteRecipe, editRecipe }) => {
 	if (!recipe) {
 		return <Fragment></Fragment>;
 	}
@@ -28,6 +28,7 @@ const Recipe = ({ recipe, deleteRecipe }) => {
 							className="secondary-content"
 							onClick={(e) => {
 								e.preventDefault();
+								editRecipe(recipe);
 							}}
 						>
 							<i className="material-icons blue-text">create</i>
@@ -55,4 +56,4 @@ const mapStateToProps = (state) => {
 		recipe: state.recipes.current,
 	};
 };
-export default connect(mapStateToProps, { deleteRecipe })(Recipe);
+export default connect(mapStateToProps, { deleteRecipe, editRecipe })(Recipe);

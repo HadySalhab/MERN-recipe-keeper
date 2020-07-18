@@ -5,11 +5,16 @@ import { useForm } from "react-hook-form";
 import useIngredients from "../../hooks/useIngredients";
 import { v4 as uuidv4 } from "uuid";
 import { connect } from "react-redux";
-import { addRecipe } from "../../actions";
+import { addRecipe, clearEditRecipe, updateRecipe } from "../../actions";
 
-const AddRecipeModal = (props) => {
-	const [name, onNameChange, resetName] = useFormState("");
-	const [direction, onDirectionChange, resetDirection] = useFormState("");
+const RecipeModal = ({ recipe, addRecipe, clearEditRecipe, updateRecipe }) => {
+	const [name, onNameChange, resetName, setName] = useFormState("");
+	const [
+		direction,
+		onDirectionChange,
+		resetDirection,
+		setDirection,
+	] = useFormState("");
 	const [ingredient, onIngredientChange, resetIngredient] = useFormState("");
 	const { clearErrors, trigger, register, errors } = useForm();
 	const {
@@ -17,9 +22,11 @@ const AddRecipeModal = (props) => {
 		addIngredient,
 		deleteIngredient,
 		clearIngredients,
+		setIngredients,
 	} = useIngredients([]);
 
 	const modal = useRef();
+	const textArea = useRef();
 
 	useEffect(() => {
 		M.Modal.init(modal.current, {
@@ -29,12 +36,28 @@ const AddRecipeModal = (props) => {
 		});
 	}, []);
 
+	useEffect(() => {
+		if (recipe) {
+			M.Modal.getInstance(modal.current).open();
+			setName(recipe.name);
+			setDirection(recipe.direction);
+			setIngredients(recipe.ingredients);
+		}
+	}, [recipe]);
+
+	useEffect(() => {
+		if (textArea.current) {
+			M.textareaAutoResize(textArea.current);
+		}
+	});
+
 	const clearState = () => {
 		resetName();
 		resetDirection();
 		resetIngredient();
 		clearIngredients();
 		clearErrors();
+		clearEditRecipe();
 	};
 
 	const handleSubmit = async (e) => {
@@ -42,14 +65,22 @@ const AddRecipeModal = (props) => {
 		const result = await trigger();
 		if (result) {
 			M.Modal.getInstance(modal.current).close();
-			const recipe = {
-				id: uuidv4(),
-				name,
-				direction,
-				ingredients,
-			};
-			props.addRecipe(recipe);
-			clearState();
+			if (recipe) {
+				updateRecipe({
+					id: recipe.id,
+					name,
+					direction,
+					ingredients,
+				});
+			} else {
+				addRecipe({
+					id: uuidv4(),
+					name,
+					direction,
+					ingredients,
+				});
+				clearState();
+			}
 		}
 	};
 
@@ -72,7 +103,7 @@ const AddRecipeModal = (props) => {
 									required: true,
 								})}
 							/>
-							<label htmlFor="name">Name</label>
+							{!recipe && <label htmlFor="name">Name</label>}
 							{errors.name?.type === "required" && (
 								<span className="helper-text red-text">Please add a name</span>
 							)}
@@ -84,12 +115,15 @@ const AddRecipeModal = (props) => {
 								name="direction"
 								value={direction}
 								onChange={onDirectionChange}
-								ref={register({
-									required: true,
-									minLength: 50,
-								})}
+								ref={(el) => {
+									textArea.current = el;
+									register({
+										required: true,
+										minLength: 50,
+									});
+								}}
 							></textarea>
-							<label htmlFor="direction">Directions</label>
+							{!recipe && <label htmlFor="direction">Directions</label>}
 							{errors.direction?.type === "required" && (
 								<span className="helper-text red-text">
 									Please add directions
@@ -174,5 +208,14 @@ const AddRecipeModal = (props) => {
 		</div>
 	);
 };
+const mapStateToProps = (state) => {
+	return {
+		recipe: state.recipes.edit,
+	};
+};
 
-export default connect(null, { addRecipe })(AddRecipeModal);
+export default connect(mapStateToProps, {
+	addRecipe,
+	clearEditRecipe,
+	updateRecipe,
+})(RecipeModal);

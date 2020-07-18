@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import Recipes from "../recipes/Recipes";
 import Recipe from "../recipes/Recipe";
-import AddRecipeModal from "../recipes/AddRecipeModal";
+import RecipeModal from "../recipes/RecipeModal";
 import M from "materialize-css/dist/js/materialize.min.js";
 const Home = () => {
 	const fab = useRef();
@@ -13,7 +13,7 @@ const Home = () => {
 			<Recipes />
 			<Recipe />
 
-			<AddRecipeModal />
+			<RecipeModal />
 			<div ref={fab} className="fixed-action-btn">
 				<a
 					data-target="modal1"

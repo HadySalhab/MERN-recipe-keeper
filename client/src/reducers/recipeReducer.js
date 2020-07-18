@@ -5,6 +5,8 @@ import {
 	DELETE_RECIPE,
 	RECIPE_ERROR,
 	SET_CURRENT,
+	EDIT_RECIPE,
+	CLEAR_EDIT_RECIPE,
 } from "../actions/types";
 
 const initialState = {
@@ -43,6 +45,7 @@ const initialState = {
 	current: null,
 	loading: null,
 	error: null,
+	edit: null,
 };
 export default (state = initialState, action) => {
 	switch (action.type) {
@@ -62,7 +65,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				recipes: state.recipes.map((rec) =>
-					rec._id === action.payload.id ? action.payload : rec
+					rec.id === action.payload.id ? action.payload : rec
 				),
 				loading: false,
 			};
@@ -82,6 +85,18 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				current: action.payload,
+			};
+		}
+		case EDIT_RECIPE: {
+			return {
+				...state,
+				edit: action.payload,
+			};
+		}
+		case CLEAR_EDIT_RECIPE: {
+			return {
+				...state,
+				edit: null,
 			};
 		}
 		default:

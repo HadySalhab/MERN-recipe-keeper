@@ -9,7 +9,7 @@ const useForm = (initialValue) => {
 		setValue("");
 	};
 
-	return [value, handleChange, reset];
+	return [value, handleChange, reset, setValue];
 };
 
 export default useForm;
