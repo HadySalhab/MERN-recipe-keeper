@@ -2,7 +2,11 @@ import {
 	REGISTER_SUCCESS,
 	REGISTER_FAIL,
 	CLEAR_ALERT,
-	REGISTER_LOADING,
+	AUTH_LOADING,
+	USER_LOADED,
+	AUTH_ERROR,
+	LOGIN_SUCCESS,
+	LOGIN_FAIL,
 } from "../actions/types";
 
 const initial = {
@@ -16,6 +20,7 @@ const initial = {
 export default (state = initial, action) => {
 	switch (action.type) {
 		case REGISTER_SUCCESS:
+		case LOGIN_SUCCESS:
 			return {
 				...state,
 				token: action.payload,
@@ -23,6 +28,8 @@ export default (state = initial, action) => {
 				loading: false,
 			};
 		case REGISTER_FAIL:
+		case LOGIN_FAIL:
+		case AUTH_ERROR:
 			return {
 				...state,
 				token: null,
@@ -31,11 +38,19 @@ export default (state = initial, action) => {
 				user: null,
 				alert: action.payload,
 			};
-		case REGISTER_LOADING:
+		case AUTH_LOADING:
 			return {
 				...state,
 				loading: true,
 				alert: null,
+			};
+		case USER_LOADED:
+			return {
+				...state,
+				isAuthenticated: true,
+				loading: false,
+				alert: null,
+				user: action.payload,
 			};
 		case CLEAR_ALERT:
 			return {

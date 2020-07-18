@@ -1,15 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useFormState from "../../hooks/useForm";
 import { connect } from "react-redux";
 import { register as registerUser } from "../../actions";
 import { useForm } from "react-hook-form";
 import Preloader from "../layout/Preloader";
-const Register = ({ registerUser, alert, loading }) => {
+const Register = ({
+	registerUser,
+	alert,
+	loading,
+	isAuthenticated,
+	history,
+}) => {
 	const [name, onNameChange] = useFormState("");
 	const [email, onEmailChange] = useFormState("");
 	const [password, onPasswordChange] = useFormState("");
 	const [confirmPassword, onConfirmPasswordChange] = useFormState("");
 	const { clearErrors, trigger, register, errors } = useForm();
+
+	useEffect(() => {
+		if (isAuthenticated) {
+			history.push("/");
+		}
+	}, [isAuthenticated]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -174,6 +186,7 @@ const mapStateToProps = (state) => {
 	return {
 		alert: state.auth.alert,
 		loading: state.auth.loading,
+		isAuthenticated: state.auth.isAuthenticated,
 	};
 };
 
