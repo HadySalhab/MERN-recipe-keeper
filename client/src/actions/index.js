@@ -44,3 +44,9 @@ export const clearEditRecipe = () => {
 		type: CLEAR_EDIT_RECIPE,
 	};
 };
+
+// Load User
+// Register User
+// Login User
+// Logout User
+// Clear Alert
