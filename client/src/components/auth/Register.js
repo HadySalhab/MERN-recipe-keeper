@@ -46,7 +46,7 @@ const Register = ({ registerUser, alert, loading }) => {
 				<div className="center-align card">
 					<div className="card-content">
 						<h4>
-							<span className="green-text">Register </span>Form
+							<span className="green-text">Registration </span>Form
 						</h4>
 						<form onSubmit={handleSubmit}>
 							<div className="input-field">
