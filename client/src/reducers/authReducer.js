@@ -1,9 +1,14 @@
-import { REGISTER_SUCCESS, REGISTER_FAIL, CLEAR_ALERT } from "../actions/types";
+import {
+	REGISTER_SUCCESS,
+	REGISTER_FAIL,
+	CLEAR_ALERT,
+	REGISTER_LOADING,
+} from "../actions/types";
 
 const initial = {
 	token: localStorage.getItem("recipe-token"),
 	isAuthenticated: null,
-	loading: true,
+	loading: false,
 	alert: null,
 	user: null,
 };
@@ -26,10 +31,17 @@ export default (state = initial, action) => {
 				user: null,
 				alert: action.payload,
 			};
+		case REGISTER_LOADING:
+			return {
+				...state,
+				loading: true,
+				alert: null,
+			};
 		case CLEAR_ALERT:
 			return {
 				...state,
 				alert: null,
+				loading: false,
 			};
 		default:
 			return state;

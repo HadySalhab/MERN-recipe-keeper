@@ -8,6 +8,7 @@ import {
 	REGISTER_FAIL,
 	REGISTER_SUCCESS,
 	CLEAR_ALERT,
+	REGISTER_LOADING,
 } from "./types";
 import axios from "axios";
 export const setCurrent = (recipe) => {
@@ -52,19 +53,29 @@ export const clearEditRecipe = () => {
 // Register User
 export const register = (formData) => async (dispatch) => {
 	try {
-		const res = await axios({
-			method: "post",
-			url: "/api/auth/register",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			data: formData,
-		});
-		dispatch({
-			type: REGISTER_SUCCESS,
-			payload: res.data.token,
-		});
-		localStorage.setItem("recipe-token", res.data.token);
+		if (!navigator.onLine) {
+			dispatch({
+				type: REGISTER_FAIL,
+				payload: "Please check your internet connection",
+			});
+		} else {
+			dispatch({
+				type: REGISTER_LOADING,
+			});
+			const res = await axios({
+				method: "post",
+				url: "/api/auth/register",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				data: formData,
+			});
+			dispatch({
+				type: REGISTER_SUCCESS,
+				payload: res.data.token,
+			});
+			localStorage.setItem("recipe-token", res.data.token);
+		}
 	} catch (err) {
 		if (err.response) {
 			let message = err.response.data.error;

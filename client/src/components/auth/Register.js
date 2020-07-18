@@ -3,7 +3,8 @@ import useFormState from "../../hooks/useForm";
 import { connect } from "react-redux";
 import { register as registerUser } from "../../actions";
 import { useForm } from "react-hook-form";
-const Register = ({ registerUser, alert }) => {
+import Preloader from "../layout/Preloader";
+const Register = ({ registerUser, alert, loading }) => {
 	const [name, onNameChange] = useFormState("");
 	const [email, onEmailChange] = useFormState("");
 	const [password, onPasswordChange] = useFormState("");
@@ -32,6 +33,15 @@ const Register = ({ registerUser, alert }) => {
 					{alert}
 				</div>
 			)}
+			{loading && (
+				<div
+					style={{ padding: ".75rem 0rem", marginBottom: "0.75rem" }}
+					className="center-align"
+				>
+					<Preloader />
+				</div>
+			)}
+
 			<div className="col s12 m8 xl6 offset-m2 offset-xl3">
 				<div className="center-align card">
 					<div className="card-content">
@@ -163,6 +173,7 @@ const Register = ({ registerUser, alert }) => {
 const mapStateToProps = (state) => {
 	return {
 		alert: state.auth.alert,
+		loading: state.auth.loading,
 	};
 };
 
