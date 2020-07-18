@@ -1,14 +1,41 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, Fragment } from "react";
 import PropTypes from "prop-types";
+import { logout } from "../../actions";
 import { Link } from "react-router-dom";
 import M from "materialize-css/dist/js/materialize.min.js";
 import "../../App.css";
+import { connect } from "react-redux";
 const Navbar = (props) => {
-	const { title, icon } = props;
+	const { title, icon, isAuthenticated, user, logout } = props;
 	const sideNav = useRef();
 	useEffect(() => {
 		M.Sidenav.init(sideNav.current);
 	}, []);
+
+	const authLinks = (
+		<Fragment>
+			<li>
+				<a
+					onClick={(e) => {
+						e.preventDefault();
+						logout();
+					}}
+				>
+					Logout
+				</a>
+			</li>
+		</Fragment>
+	);
+	const guestLinks = (
+		<Fragment>
+			<li>
+				<Link to="/register">Register</Link>
+			</li>
+			<li>
+				<Link to="/login">Login</Link>
+			</li>
+		</Fragment>
+	);
 	return (
 		<React.Fragment>
 			<nav className="green">
@@ -21,42 +48,13 @@ const Navbar = (props) => {
 						<i className="material-icons">menu</i>
 					</a>
 					<ul className="right hide-on-med-and-down">
-						<li>
-							<Link to="/">Home</Link>
-						</li>
-						<li>
-							<Link to="/about">About</Link>
-						</li>
-						<li>
-							<Link to="/register">Register</Link>
-						</li>
-						<li>
-							<Link to="/login">Login</Link>
-						</li>
+						{isAuthenticated ? authLinks : guestLinks}
 					</ul>
 				</div>
 			</nav>
+			{/* mobile */}
 			<ul className="sidenav" id="mobile-demo" ref={sideNav}>
-				<li>
-					<Link className="sidenav-close" to="/">
-						Home
-					</Link>
-				</li>
-				<li>
-					<Link className="sidenav-close" to="/about">
-						About
-					</Link>
-				</li>
-				<li>
-					<Link className="sidenav-close" to="/register">
-						Register
-					</Link>
-				</li>
-				<li>
-					<Link className="sidenav-close" to="/login">
-						Login
-					</Link>
-				</li>
+				{isAuthenticated ? authLinks : guestLinks}
 			</ul>
 		</React.Fragment>
 	);
@@ -70,5 +68,11 @@ Navbar.defaultProps = {
 	title: "Recipe Keeper",
 	icon: "fas fa-utensils",
 };
+const mapStateToProps = (state) => {
+	return {
+		isAuthenticated: state.auth.isAuthenticated,
+		user: state.auth.user,
+	};
+};
 
-export default Navbar;
+export default connect(mapStateToProps, { logout })(Navbar);

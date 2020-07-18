@@ -13,6 +13,7 @@ import {
 	AUTH_ERROR,
 	LOGIN_FAIL,
 	LOGIN_SUCCESS,
+	LOGOUT,
 } from "./types";
 import axios from "../util/axios";
 
@@ -175,7 +176,12 @@ export const loadUser = () => async (dispatch) => {
 		localStorage.removeItem("recipe-token");
 	}
 };
-
+export const logout = () => {
+	return {
+		type: LOGOUT,
+		payload: null,
+	};
+};
 export const clearAlert = () => {
 	return {
 		type: CLEAR_ALERT,
