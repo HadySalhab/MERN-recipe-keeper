@@ -15,3 +15,4 @@ export const USER_LOADED = "USER_LOADED";
 export const LOGOUT = "LOGOUT";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const SET_CURRENT = "SET_CURRENT";
+export const CLEAR_ALERT = "CLEAR_ALERT";

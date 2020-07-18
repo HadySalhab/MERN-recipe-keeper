@@ -5,8 +5,11 @@ import {
 	EDIT_RECIPE,
 	CLEAR_EDIT_RECIPE,
 	UPDATE_RECIPE,
+	REGISTER_FAIL,
+	REGISTER_SUCCESS,
+	CLEAR_ALERT,
 } from "./types";
-
+import axios from "axios";
 export const setCurrent = (recipe) => {
 	return {
 		type: SET_CURRENT,
@@ -47,6 +50,50 @@ export const clearEditRecipe = () => {
 
 // Load User
 // Register User
+export const register = (formData) => async (dispatch) => {
+	try {
+		const res = await axios({
+			method: "post",
+			url: "/api/auth/register",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			data: formData,
+		});
+		dispatch({
+			type: REGISTER_SUCCESS,
+			payload: res.data.token,
+		});
+		localStorage.setItem("recipe-token", res.data.token);
+	} catch (err) {
+		if (err.response) {
+			let message = err.response.data.error;
+			if (message.startsWith("Duplicate")) {
+				message = "Email Aready In Use. Please Choose Another Email";
+			}
+			dispatch({
+				type: REGISTER_FAIL,
+				payload: message,
+			});
+		} else {
+			dispatch({
+				type: REGISTER_FAIL,
+				payload: "Something went wrong.Please check network connection",
+			});
+		}
+
+		setTimeout(() => {
+			dispatch(clearAlert());
+		}, 3000);
+		localStorage.removeItem("recipe-token");
+	}
+};
+
+export const clearAlert = () => {
+	return {
+		type: CLEAR_ALERT,
+	};
+};
 // Login User
 // Logout User
 // Clear Alert
