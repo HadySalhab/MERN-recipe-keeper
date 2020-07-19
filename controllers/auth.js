@@ -9,9 +9,13 @@ const ErrorResponse = require("../utils/errorResponse");
 // @access    Public
 exports.register = asyncHandler(async (req, res, next) => {
 	const { name, email, password } = req.body;
-	const user = new User({ name, email, password });
+	let user = new User({ name, email, password });
+	user = await user.save();
 	user.password = await bcrypt.getHashPass(user.password);
-	await user.save();
+	user = await User.findByIdAndUpdate(user._id, user, {
+		runValidators: true,
+		new: true,
+	});
 	sendTokenResponse(user, 200, res);
 });
 
