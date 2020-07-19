@@ -62,9 +62,27 @@ export const addRecipe = (recipe) => async (dispatch) => {
 	}
 };
 
-export const updateRecipe = (recipe) => (dispatch) => {
-	dispatch({ type: UPDATE_RECIPE, payload: recipe });
-	dispatch(setCurrent(recipe));
+export const updateRecipe = (recipe) => async (dispatch) => {
+	try {
+		dispatch({
+			type: RECIPE_LOADING,
+		});
+		const res = await axios({
+			method: "put",
+			url: `/api/recipes/${recipe._id}`,
+			headers: {
+				"Content-Type": "application/json",
+			},
+			data: recipe,
+		});
+		dispatch({
+			type: UPDATE_RECIPE,
+			payload: res.data.data, // send api data to include mongoose id
+		});
+		dispatch(setCurrent(res.data.data)); // to reflect the update in the current opened recipe
+	} catch (err) {
+		handleError(err, RECIPE_ERROR, dispatch);
+	}
 };
 
 export const deleteRecipe = (id) => async (dispatch) => {

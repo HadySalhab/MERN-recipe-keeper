@@ -36,7 +36,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				recipes: state.recipes.map((rec) =>
-					rec.id === action.payload.id ? action.payload : rec
+					rec._id === action.payload._id ? action.payload : rec
 				),
 				loading: false,
 			};
