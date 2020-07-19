@@ -118,7 +118,7 @@ const RecipeModal = ({ recipe, addRecipe, clearEditRecipe, updateRecipe }) => {
 								onChange={onDirectionChange}
 								ref={(el) => {
 									textArea.current = el;
-									register({
+									register(el, {
 										required: true,
 										minLength: 50,
 									});
