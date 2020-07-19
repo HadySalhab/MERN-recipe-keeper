@@ -10,6 +10,8 @@ import {
 	AUTH_USER,
 	RECIPE_ERROR,
 	RECIPE_LOADING,
+	GET_RECIPES,
+	CLEAR_RECIPES_STATE,
 } from "./types";
 import axios from "../util/axios";
 
@@ -18,6 +20,24 @@ export const setCurrent = (recipe) => {
 		type: SET_CURRENT,
 		payload: recipe,
 	};
+};
+
+export const getRecipes = () => async (dispatch) => {
+	try {
+		dispatch({
+			type: RECIPE_LOADING,
+		});
+		const res = await axios({
+			method: "get",
+			url: "/api/recipes",
+		});
+		dispatch({
+			type: GET_RECIPES,
+			payload: res.data.data, // send api data to include mongoose id
+		});
+	} catch (err) {
+		handleError(err, RECIPE_ERROR, dispatch);
+	}
 };
 
 export const addRecipe = (recipe) => async (dispatch) => {
@@ -65,6 +85,12 @@ export const editRecipe = (recipe) => {
 export const clearEditRecipe = () => {
 	return {
 		type: CLEAR_EDIT_RECIPE,
+	};
+};
+
+export const clearRecipesState = () => {
+	return {
+		type: CLEAR_RECIPES_STATE,
 	};
 };
 
@@ -150,13 +176,14 @@ export const login = (formData) => async (dispatch) => {
 	}
 };
 
-export const logout = () => {
+export const logout = () => (dispatch) => {
 	localStorage.removeItem("recipe-token");
 	axios.setAuthToken("");
-	return {
+	dispatch({
 		type: AUTH_USER,
 		payload: "",
-	};
+	});
+	dispatch(clearRecipesState());
 };
 
 const handleError = (err, type, dispatch) => {

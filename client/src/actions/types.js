@@ -10,6 +10,7 @@ export const SET_CURRENT = "SET_CURRENT";
 
 export const RECIPE_ERROR = "RECIPE_ERROR";
 export const RECIPE_LOADING = "RECIPE_LOADING";
+export const CLEAR_RECIPES_STATE = "CLEAR_RECIPES_STATE";
 
 // Authentication
 export const AUTH_ERROR = "AUTH_ERROR";

@@ -8,10 +8,11 @@ import {
 	EDIT_RECIPE,
 	CLEAR_EDIT_RECIPE,
 	RECIPE_LOADING,
+	CLEAR_RECIPES_STATE,
 } from "../actions/types";
 
 const initialState = {
-	recipes: [],
+	recipes: null,
 	current: null,
 	loading: null,
 	error: null,
@@ -73,6 +74,16 @@ export default (state = initialState, action) => {
 		case CLEAR_EDIT_RECIPE: {
 			return {
 				...state,
+				edit: null,
+			};
+		}
+		case CLEAR_RECIPES_STATE: {
+			return {
+				...state,
+				recipes: null,
+				current: null,
+				loading: null,
+				error: null,
 				edit: null,
 			};
 		}
