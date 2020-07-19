@@ -3,6 +3,7 @@ import useFormState from "../../hooks/useForm";
 import { connect } from "react-redux";
 import { register as registerUser } from "../../actions";
 import { useForm } from "react-hook-form";
+import Alert from "../layout/Alert";
 import Preloader from "../layout/Preloader";
 const Register = ({ registerUser, error, loading, authenticated, history }) => {
 	const [name, onNameChange] = useFormState("");
@@ -31,14 +32,7 @@ const Register = ({ registerUser, error, loading, authenticated, history }) => {
 
 	return (
 		<div className="row section">
-			{error && (
-				<div
-					style={{ padding: ".75rem 0rem", marginBottom: "0.75rem" }}
-					className="red white-text center-align"
-				>
-					{error}
-				</div>
-			)}
+			{error && <Alert error={error} />}
 			{loading && (
 				<div
 					style={{ padding: ".75rem 0rem", marginBottom: "0.75rem" }}

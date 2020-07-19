@@ -3,7 +3,6 @@ import M from "materialize-css/dist/js/materialize.min.js";
 import useFormState from "../../hooks/useForm";
 import { useForm } from "react-hook-form";
 import useIngredients from "../../hooks/useIngredients";
-import { v4 as uuidv4 } from "uuid";
 import { connect } from "react-redux";
 import { addRecipe, clearEditRecipe, updateRecipe } from "../../actions";
 
@@ -68,14 +67,13 @@ const RecipeModal = ({ recipe, addRecipe, clearEditRecipe, updateRecipe }) => {
 			M.Modal.getInstance(modal.current).close();
 			if (recipe) {
 				updateRecipe({
-					id: recipe.id,
+					_id: recipe._id,
 					name,
 					direction,
 					ingredients,
 				});
 			} else {
 				addRecipe({
-					id: uuidv4(),
 					name,
 					direction,
 					ingredients,

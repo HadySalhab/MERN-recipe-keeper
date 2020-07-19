@@ -7,6 +7,7 @@ import {
 	SET_CURRENT,
 	EDIT_RECIPE,
 	CLEAR_EDIT_RECIPE,
+	RECIPE_LOADING,
 } from "../actions/types";
 
 const initialState = {
@@ -49,6 +50,13 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				loading: false,
+				error: action.payload,
+			};
+		case RECIPE_LOADING:
+			return {
+				...state,
+				loading: true,
+				error: null,
 			};
 		case SET_CURRENT: {
 			return {

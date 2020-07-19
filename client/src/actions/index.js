@@ -8,6 +8,8 @@ import {
 	AUTH_LOADING,
 	AUTH_ERROR,
 	AUTH_USER,
+	RECIPE_ERROR,
+	RECIPE_LOADING,
 } from "./types";
 import axios from "../util/axios";
 
@@ -18,12 +20,29 @@ export const setCurrent = (recipe) => {
 	};
 };
 
-export const addRecipe = (recipe) => {
-	return {
-		type: ADD_RECIPE,
-		payload: recipe,
-	};
+export const addRecipe = (recipe) => async (dispatch) => {
+	console.log("addrecipe");
+	try {
+		dispatch({
+			type: RECIPE_LOADING,
+		});
+		const res = await axios({
+			method: "post",
+			url: "/api/recipes",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			data: recipe,
+		});
+		dispatch({
+			type: ADD_RECIPE,
+			payload: res.data.data, // send api data to include mongoose id
+		});
+	} catch (err) {
+		handleError(err, RECIPE_ERROR, dispatch);
+	}
 };
+
 export const updateRecipe = (recipe) => (dispatch) => {
 	dispatch({ type: UPDATE_RECIPE, payload: recipe });
 	dispatch(setCurrent(recipe));
@@ -127,22 +146,7 @@ export const login = (formData) => async (dispatch) => {
 			axios.setAuthToken(res.data.token);
 		}
 	} catch (err) {
-		let message;
-		if (err.response) {
-			message = err.response.data.error;
-		} else {
-			message = "Something Went Wrong";
-		}
-		dispatch({
-			type: AUTH_ERROR,
-			payload: message,
-		});
-		setTimeout(() => {
-			dispatch({
-				type: AUTH_ERROR,
-				payload: null,
-			});
-		}, 3000);
+		handleError(err, AUTH_ERROR, dispatch);
 	}
 };
 
@@ -153,4 +157,23 @@ export const logout = () => {
 		type: AUTH_USER,
 		payload: "",
 	};
+};
+
+const handleError = (err, type, dispatch) => {
+	let message;
+	if (err.response) {
+		message = err.response.data.error;
+	} else {
+		message = "Something Went Wrong";
+	}
+	dispatch({
+		type,
+		payload: message,
+	});
+	setTimeout(() => {
+		dispatch({
+			type,
+			payload: null,
+		});
+	}, 3000);
 };

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { login } from "../../actions";
 import { useForm } from "react-hook-form";
 import Preloader from "../layout/Preloader";
+import Alert from "../layout/Alert";
 const Login = ({ login, error, loading, authenticated, history }) => {
 	const [email, onEmailChange] = useFormState("");
 	const [password, onPasswordChange] = useFormState("");
@@ -29,14 +30,7 @@ const Login = ({ login, error, loading, authenticated, history }) => {
 
 	return (
 		<div className="row section">
-			{error && (
-				<div
-					style={{ padding: ".75rem 0rem", marginBottom: "0.75rem" }}
-					className="red white-text center-align"
-				>
-					{error}
-				</div>
-			)}
+			{error && <Alert error={error} />}
 			{loading && (
 				<div
 					style={{ padding: ".75rem 0rem", marginBottom: "0.75rem" }}

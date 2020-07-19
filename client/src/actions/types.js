@@ -3,14 +3,13 @@ export const GET_RECIPES = "GET_RECIPES";
 export const ADD_RECIPE = "ADD_RECIPE";
 export const DELETE_RECIPE = "DELETE_RECIPE";
 export const UPDATE_RECIPE = "UPDATE_RECIPE";
+
 export const EDIT_RECIPE = "EDIT_RECIPE";
-export const CLEAR_EDIT_RECIPE = "EDIT_RECIPE";
-export const RECIPE_ERROR = "RECIPE_ERROR";
+export const CLEAR_EDIT_RECIPE = "CLEAR_EDIT_RECIPE";
 export const SET_CURRENT = "SET_CURRENT";
 
-// Alert
-export const SET_ALERT = "SET_ALERT";
-export const REMOVE_ALERT = "REMOVE_ALERT";
+export const RECIPE_ERROR = "RECIPE_ERROR";
+export const RECIPE_LOADING = "RECIPE_LOADING";
 
 // Authentication
 export const AUTH_ERROR = "AUTH_ERROR";

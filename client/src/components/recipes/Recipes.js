@@ -15,7 +15,7 @@ const Recipes = (props) => {
 	return (
 		<TransitionGroup className="collection col s12 m6">
 			{recipes.map((rec) => (
-				<CSSTransition key={rec.id} timeout={500} classNames="item">
+				<CSSTransition key={rec._id} timeout={500} classNames="item">
 					<RecipeItem recipe={rec} />
 				</CSSTransition>
 			))}
