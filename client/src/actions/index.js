@@ -41,7 +41,6 @@ export const getRecipes = () => async (dispatch) => {
 };
 
 export const addRecipe = (recipe) => async (dispatch) => {
-	console.log("addrecipe");
 	try {
 		dispatch({
 			type: RECIPE_LOADING,
@@ -68,11 +67,22 @@ export const updateRecipe = (recipe) => (dispatch) => {
 	dispatch(setCurrent(recipe));
 };
 
-export const deleteRecipe = (id) => {
-	return {
-		type: DELETE_RECIPE,
-		payload: id,
-	};
+export const deleteRecipe = (id) => async (dispatch) => {
+	try {
+		dispatch({
+			type: RECIPE_LOADING,
+		});
+		await axios({
+			method: "delete",
+			url: `/api/recipes/${id}`,
+		});
+		dispatch({
+			type: DELETE_RECIPE,
+			payload: id,
+		});
+	} catch (err) {
+		handleError(err, RECIPE_ERROR, dispatch);
+	}
 };
 
 export const editRecipe = (recipe) => {

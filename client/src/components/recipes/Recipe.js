@@ -18,7 +18,7 @@ const Recipe = ({ recipe, deleteRecipe, editRecipe }) => {
 							className="secondary-content"
 							onClick={(e) => {
 								e.preventDefault();
-								deleteRecipe(recipe.id);
+								deleteRecipe(recipe._id);
 							}}
 						>
 							<i className="material-icons red-text">delete</i>

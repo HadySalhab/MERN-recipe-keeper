@@ -29,7 +29,7 @@ export default (state = initialState, action) => {
 		case ADD_RECIPE:
 			return {
 				...state,
-				recipes: [...state.recipes, action.payload],
+				recipes: [action.payload, ...state.recipes],
 				loading: false,
 			};
 		case UPDATE_RECIPE:
@@ -43,7 +43,7 @@ export default (state = initialState, action) => {
 		case DELETE_RECIPE:
 			return {
 				...state,
-				recipes: state.recipes.filter((rec) => rec.id !== action.payload),
+				recipes: state.recipes.filter((rec) => rec._id !== action.payload),
 				loading: false,
 				current: null,
 			};
