@@ -33,6 +33,7 @@ const RecipeModal = ({ recipe, addRecipe, clearEditRecipe, updateRecipe }) => {
 				clearState();
 			},
 		});
+		// eslint-disable-next-line
 	}, []);
 
 	useEffect(() => {
@@ -43,6 +44,7 @@ const RecipeModal = ({ recipe, addRecipe, clearEditRecipe, updateRecipe }) => {
 			setDirection(recipe.direction);
 			setIngredients(recipe.ingredients);
 		}
+		// eslint-disable-next-line
 	}, [recipe]);
 
 	useEffect(() => {

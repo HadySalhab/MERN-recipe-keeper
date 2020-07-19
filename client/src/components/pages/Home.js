@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, Fragment } from "react";
+import React, { useEffect, useRef } from "react";
 import Recipes from "../recipes/Recipes";
 import Recipe from "../recipes/Recipe";
 import RecipeModal from "../recipes/RecipeModal";

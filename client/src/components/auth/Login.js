@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import useFormState from "../../hooks/useForm";
 import { connect } from "react-redux";
 import { login } from "../../actions";
@@ -15,7 +15,7 @@ const Login = ({ login, error, loading, authenticated, history }) => {
 		if (authenticated) {
 			history.push("/");
 		}
-	}, [authenticated]);
+	}, [authenticated, history]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();

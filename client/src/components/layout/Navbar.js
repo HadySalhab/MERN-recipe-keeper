@@ -44,7 +44,7 @@ const Navbar = (props) => {
 		<React.Fragment>
 			<nav className="green">
 				<div className="nav-wrapper container">
-					<a href="#!" className="brand-logo">
+					<a className="brand-logo">
 						<i className={`nav-icon ${icon}`}></i>
 						{title}
 					</a>
