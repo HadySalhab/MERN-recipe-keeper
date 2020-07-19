@@ -5,12 +5,9 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Register from "./auth/Register";
 import Login from "./auth/Login";
-import axios from "../util/axios";
 import PrivateRoute from "../routing/PrivateRoute";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-if (localStorage.getItem("recipe-token")) {
-	axios.setAuthToken(localStorage.getItem("recipe-token"));
-}
+
 const App = () => {
 	return (
 		<Router>

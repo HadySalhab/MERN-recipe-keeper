@@ -74,6 +74,7 @@ export const register = (formData) => async (dispatch) => {
 				payload: res.data.token,
 			});
 			localStorage.setItem("recipe-token", res.data.token);
+			axios.setAuthToken(res.data.token);
 		}
 	} catch (err) {
 		let message;
@@ -123,6 +124,7 @@ export const login = (formData) => async (dispatch) => {
 				payload: res.data.token,
 			});
 			localStorage.setItem("recipe-token", res.data.token);
+			axios.setAuthToken(res.data.token);
 		}
 	} catch (err) {
 		let message;
@@ -146,6 +148,7 @@ export const login = (formData) => async (dispatch) => {
 
 export const logout = () => {
 	localStorage.removeItem("recipe-token");
+	axios.setAuthToken("");
 	return {
 		type: AUTH_USER,
 		payload: "",
