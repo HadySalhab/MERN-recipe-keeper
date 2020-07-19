@@ -14,26 +14,29 @@ const Navbar = (props) => {
 	}, []);
 
 	const authLinks = (
-		<Fragment>
-			<li>
-				<a
-					onClick={(e) => {
-						e.preventDefault();
-						logout();
-					}}
-				>
-					Logout
-				</a>
-			</li>
-		</Fragment>
+		<li>
+			<a
+				className="sidenav-close pointer"
+				onClick={(e) => {
+					e.preventDefault();
+					logout();
+				}}
+			>
+				Logout
+			</a>
+		</li>
 	);
 	const guestLinks = (
 		<Fragment>
 			<li>
-				<Link to="/register">Register</Link>
+				<Link className="sidenav-close" to="/register">
+					Register
+				</Link>
 			</li>
 			<li>
-				<Link to="/login">Login</Link>
+				<Link className="sidenav-close" to="/login">
+					Login
+				</Link>
 			</li>
 		</Fragment>
 	);
@@ -48,7 +51,7 @@ const Navbar = (props) => {
 					<a href="#" data-target="mobile-demo" className="sidenav-trigger">
 						<i className="material-icons">menu</i>
 					</a>
-					<ul className="right hide-on-med-and-down">
+					<ul id="nav-mobile" className="right hide-on-med-and-down">
 						{authenticated ? authLinks : guestLinks}
 					</ul>
 				</div>
