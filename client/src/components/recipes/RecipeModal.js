@@ -37,6 +37,7 @@ const RecipeModal = ({ recipe, addRecipe, clearEditRecipe, updateRecipe }) => {
 	}, []);
 
 	useEffect(() => {
+		// edit recipe
 		if (recipe) {
 			M.Modal.getInstance(modal.current).open();
 			setName(recipe.name);
