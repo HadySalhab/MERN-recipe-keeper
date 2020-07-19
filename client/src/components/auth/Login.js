@@ -4,17 +4,17 @@ import { connect } from "react-redux";
 import { login } from "../../actions";
 import { useForm } from "react-hook-form";
 import Preloader from "../layout/Preloader";
-const Login = ({ login, alert, loading, isAuthenticated, history }) => {
+const Login = ({ login, error, loading, authenticated, history }) => {
 	const [email, onEmailChange] = useFormState("");
 	const [password, onPasswordChange] = useFormState("");
 
-	const { clearErrors, trigger, register, errors } = useForm();
+	const { trigger, register, errors } = useForm();
 
 	useEffect(() => {
-		if (isAuthenticated) {
+		if (authenticated) {
 			history.push("/");
 		}
-	}, [isAuthenticated]);
+	}, [authenticated]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -29,12 +29,12 @@ const Login = ({ login, alert, loading, isAuthenticated, history }) => {
 
 	return (
 		<div className="row section">
-			{alert && (
+			{error && (
 				<div
 					style={{ padding: ".75rem 0rem", marginBottom: "0.75rem" }}
 					className="red white-text center-align"
 				>
-					{alert}
+					{error}
 				</div>
 			)}
 			{loading && (
@@ -123,9 +123,9 @@ const Login = ({ login, alert, loading, isAuthenticated, history }) => {
 };
 const mapStateToProps = (state) => {
 	return {
-		alert: state.auth.alert,
+		error: state.auth.errorMessage,
 		loading: state.auth.loading,
-		isAuthenticated: state.auth.isAuthenticated,
+		authenticated: state.auth.authenticated,
 	};
 };
 

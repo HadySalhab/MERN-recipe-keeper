@@ -5,15 +5,9 @@ import {
 	EDIT_RECIPE,
 	CLEAR_EDIT_RECIPE,
 	UPDATE_RECIPE,
-	REGISTER_FAIL,
-	REGISTER_SUCCESS,
-	CLEAR_ALERT,
 	AUTH_LOADING,
-	USER_LOADED,
 	AUTH_ERROR,
-	LOGIN_FAIL,
-	LOGIN_SUCCESS,
-	LOGOUT,
+	AUTH_USER,
 } from "./types";
 import axios from "../util/axios";
 
@@ -60,7 +54,7 @@ export const register = (formData) => async (dispatch) => {
 	try {
 		if (!navigator.onLine) {
 			dispatch({
-				type: REGISTER_FAIL,
+				type: AUTH_ERROR,
 				payload: "Please check your internet connection",
 			});
 		} else {
@@ -76,32 +70,32 @@ export const register = (formData) => async (dispatch) => {
 				data: formData,
 			});
 			dispatch({
-				type: REGISTER_SUCCESS,
+				type: AUTH_USER,
 				payload: res.data.token,
 			});
 			localStorage.setItem("recipe-token", res.data.token);
+			axios.setAuthToken(res.data.token);
 		}
-		dispatch(loadUser());
 	} catch (err) {
+		let message;
 		if (err.response) {
-			let message = err.response.data.error;
+			message = err.response.data.error;
 			if (message.startsWith("Duplicate")) {
 				message = "Email Aready In Use. Please Choose Another Email";
 			}
-			dispatch({
-				type: REGISTER_FAIL,
-				payload: message,
-			});
 		} else {
-			dispatch({
-				type: REGISTER_FAIL,
-				payload: "Something went wrong.",
-			});
+			message = "Something Went Wrong";
 		}
+		dispatch({
+			type: AUTH_ERROR,
+			payload: message,
+		});
 		setTimeout(() => {
-			dispatch(clearAlert());
+			dispatch({
+				type: AUTH_ERROR,
+				payload: null,
+			});
 		}, 3000);
-		localStorage.removeItem("recipe-token");
 	}
 };
 
@@ -110,7 +104,7 @@ export const login = (formData) => async (dispatch) => {
 	try {
 		if (!navigator.onLine) {
 			dispatch({
-				type: LOGIN_FAIL,
+				type: AUTH_ERROR,
 				payload: "Please check your internet connection",
 			});
 		} else {
@@ -126,63 +120,37 @@ export const login = (formData) => async (dispatch) => {
 				data: formData,
 			});
 			dispatch({
-				type: LOGIN_SUCCESS,
+				type: AUTH_USER,
 				payload: res.data.token,
 			});
 			localStorage.setItem("recipe-token", res.data.token);
-			dispatch(loadUser());
+			axios.setAuthToken(res.data.token);
 		}
 	} catch (err) {
+		let message;
 		if (err.response) {
-			let message = err.response.data.error;
-			dispatch({
-				type: LOGIN_FAIL,
-				payload: message,
-			});
+			message = err.response.data.error;
 		} else {
-			dispatch({
-				type: LOGIN_FAIL,
-				payload: "Something went wrong.",
-			});
+			message = "Something Went Wrong";
 		}
+		dispatch({
+			type: AUTH_ERROR,
+			payload: message,
+		});
 		setTimeout(() => {
-			dispatch(clearAlert());
+			dispatch({
+				type: AUTH_ERROR,
+				payload: null,
+			});
 		}, 3000);
-		localStorage.removeItem("recipe-token");
 	}
 };
 
-// load user
-export const loadUser = () => async (dispatch) => {
-	if (localStorage.getItem("recipe-token")) {
-		axios.setAuthToken(localStorage.getItem("recipe-token"));
-	}
-	try {
-		const res = await axios({
-			method: "get",
-			url: "/api/auth/me",
-		});
-		dispatch({
-			type: USER_LOADED,
-			payload: res.data.data,
-		});
-	} catch (err) {
-		dispatch({
-			type: AUTH_ERROR,
-			payload: null,
-		});
-		localStorage.removeItem("recipe-token");
-	}
-};
 export const logout = () => {
 	localStorage.removeItem("recipe-token");
+	axios.setAuthToken("");
 	return {
-		type: LOGOUT,
-		payload: null,
-	};
-};
-export const clearAlert = () => {
-	return {
-		type: CLEAR_ALERT,
+		type: AUTH_USER,
+		payload: "",
 	};
 };
