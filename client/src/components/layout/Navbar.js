@@ -1,20 +1,16 @@
 import React, { useEffect, useRef, Fragment } from "react";
 import PropTypes from "prop-types";
-import { logout, loadUser } from "../../actions";
+import { logout } from "../../actions";
 import { Link } from "react-router-dom";
 import M from "materialize-css/dist/js/materialize.min.js";
 import "../../App.css";
 import { connect } from "react-redux";
 const Navbar = (props) => {
-	const { title, icon, isAuthenticated, loadUser, logout } = props;
+	const { title, icon, authenticated, logout } = props;
 
 	const sideNav = useRef();
 	useEffect(() => {
 		M.Sidenav.init(sideNav.current);
-	}, []);
-	useEffect(() => {
-		console.log("Navbar");
-		loadUser();
 	}, []);
 
 	const authLinks = (
@@ -53,13 +49,13 @@ const Navbar = (props) => {
 						<i className="material-icons">menu</i>
 					</a>
 					<ul className="right hide-on-med-and-down">
-						{isAuthenticated ? authLinks : guestLinks}
+						{authenticated ? authLinks : guestLinks}
 					</ul>
 				</div>
 			</nav>
 			{/* mobile */}
 			<ul className="sidenav" id="mobile-demo" ref={sideNav}>
-				{isAuthenticated ? authLinks : guestLinks}
+				{authenticated ? authLinks : guestLinks}
 			</ul>
 		</React.Fragment>
 	);
@@ -75,9 +71,8 @@ Navbar.defaultProps = {
 };
 const mapStateToProps = (state) => {
 	return {
-		isAuthenticated: state.auth.isAuthenticated,
-		user: state.auth.user,
+		authenticated: state.auth.authenticated,
 	};
 };
 
-export default connect(mapStateToProps, { logout, loadUser })(Navbar);
+export default connect(mapStateToProps, { logout })(Navbar);
